@@ -7,6 +7,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('roof');
+  this.route('light');
+  this.route('cctv');
 });
 
 export default Router;

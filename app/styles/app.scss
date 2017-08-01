@@ -1,0 +1,27 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #666;
+$menu-height: 7vh;
+$colump-height: ( 100vh - $menu-height) /3;
+$colump-width: 100vw / 2 ;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+  background-color: $primary-color
+}
+.ui.menu {
+  height: $menu-height;
+}
+.ui.column:nth-child(2){
+ border: 2px solid black;
+}
+
+.row.column > .column{
+  background-color: #999;
+  height: $colump-height;
+  width: $colump-width;
+}
+
+.row {
+  height: $colump-height;
+}

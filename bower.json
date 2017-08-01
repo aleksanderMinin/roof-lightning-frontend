@@ -1,0 +1,6 @@
+{
+  "name": "roof-light-front",
+  "dependencies": {
+    "semantic-ui": "^2.2.11"
+  }
+}
