@@ -1,12 +1,13 @@
 import Ember from 'ember';
-import strip from '../models/strip'
+var STRIP_LENGHT = 500; //cm
+var DIODS_PERMETR = 60;
+
 export default Ember.Route.extend({
   model() {
     this.get('store').push({
       data:[{
             id: 1,
-            type: 'room',
-            attributes: { perimeter: 0 }
+            type: 'room'
           }]});
     this.get('store').push({
       data:[{
@@ -30,46 +31,25 @@ export default Ember.Route.extend({
         attributes: { length: 2.5 },
         relationships: { room: 1 }
       }]});
-    let _room =   this.get('store').peekRecord('room',1);
+    let _room =  this.get('store').peekRecord('room',1);
     let _walls = this.get('store').peekAll('wall');
-    let wallsCount = 0;
     let _this = this;
     _walls.forEach( function( wall ) {
-      _room.get('walls').push
       _room.set('perimeter', _room.get('perimeter') + wall.get('length') );
-      wallsCount++;
-      if (wallsCount == 1 ) {
+      _room.get('walls').pushObject(wall);
+      let needDiods =  wall.get('length') * DIODS_PERMETR;
+      console.log('needDiods ' + needDiods);
+      for ( var i = 1; i <= needDiods; i++ ){
+        let _id = i + 1000 *  wall.get('id');
         _this.get('store').push({
           data: [{
-            id: wallsCount,
-            type: "strip",
-            turnDiod: function() {
-              if ( wall.get('lenght') < Strip.STRIP_LENGHT ) {
-                return ( Strip.STRIP_LENGHT - wall.get('lenght') )/  Strip.DIODS_PERMETR;
-              }
-            },
-            relationships: {
-              startWall: wall.get('id'),
-              endWall: function() {
-                if ( wall.get('lenght') < Strip.STRIP_LENGHT ) {
-                  try {
-                    let nextWall = _this.get('store').peekRecord('wall', wall.get('id') + 1);
-                    return nextWall;
-                  }
-                  catch (err) {
-                    return 1;
-                  }
-                }
-              }
-            }
-          }]
-        })
-      }
-      else {
-
+            id: _id ,
+            type: 'diod',
+            attributes: {},
+            relationships: { wall: wall.get('id')}
+         }] })
+        let _diod = _this.get('store').peekRecord('diod', _id);
+        wall.get('diods').pushObject(_diod);
       }
     })
-    console.log(wallsCount);
-
-
 }});
