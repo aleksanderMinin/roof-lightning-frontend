@@ -38,7 +38,6 @@ export default Ember.Route.extend({
       _room.set('perimeter', _room.get('perimeter') + wall.get('length') );
       _room.get('walls').pushObject(wall);
       let needDiods =  wall.get('length') * DIODS_PERMETR;
-      console.log('needDiods ' + needDiods);
       for ( var i = 1; i <= needDiods; i++ ){
         let _id = i + 1000 *  wall.get('id');
         _this.get('store').push({

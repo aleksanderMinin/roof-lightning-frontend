@@ -26,5 +26,9 @@ body {
   height: $colump-height;
 }
 .diod {
-  position: inherit;
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #123;
+  border: 1px solid white;
 }
