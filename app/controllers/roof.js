@@ -3,17 +3,17 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   actions: {
     createDiods() {
+
       let roomHeight = $("#room").height();
       let roomWidth = $("#room").width();
-
 
       let _store = this.store;
       let walls = this.store.peekAll('wall');
 
       //Х - по ширине
-      let coordX = $("#room").outerWidth();
+      let coordX = $("#room").width();
       //Y - по высоте
-      let coordY = $("#room").outerHeight();
+      let coordY = $("#room").height();
       walls.forEach( function( wall ) {
         let dio = wall.get('diods').get('length');
         let stepY = coordY / dio;
@@ -26,56 +26,59 @@ export default Ember.Controller.extend({
             $("#room").append(divBlock);
             //$("#" + _id).css("background-color", _id);
             //отрисовка вверх
-            /*
+
             if ( wall.get('id') == 1 ) {
               let perTop;
               if ( _id % 1000 !== 1 ){
                 perTop =  $("#" + (_id - 1) ).css('top');
-                perTop = perTop.substr(0, perTop.length-2);
+                perTop = Number ( perTop.substr(0, perTop.length-2)) ;
               }
               else {
                 perTop = coordY;
               }
               $("#" + _id ).css('top', perTop - stepY );
             }
-            */
+
             //отрисовка вправо
+
             if ( wall.get('id') == 2 ){
               let perLeft = 0;
               if ( _id % 1000 !== 1 ){
-                //console.log("_id " + (_id ) );
                 perLeft =  $("#" + (_id - 1) ).css('left') ;
-                //console.log("perLeft text " + perLeft);
-                console.log("typeof(perLeft) - " + (typeof perLeft) );
                 perLeft = perLeft.substr(0, perLeft.length-2);
-                console.log("typeof(perLeft substr) - " + (typeof perLeft) );
-                //console.log("perLeft " + perLeft);
               }
               else {
                 perLeft = 0 - stepX;
               }
-              let x = perLeft.isInteger() + stepX;
-              console.log("typeof(perLeft) - " + (typeof perLeft) + " " + ( perLeft + 0 ) );
-              console.log("typeof(-)stepX) - " + (typeof stepX) );
-              $("#" + _id ).css('left', x );
-              console.log("ppoluchilos " + $("#" + _id ).css('left') );
-            }
-            /*
-            //отрисовка вниз
-            if ( wall.get('id') == 3 ) {
-              $("#" + _id ).css('left',coordX);
-              let tId = _id - 1;
-              let cY = $("#" + tId ).css('top') + stepY;
-              $("#" + _id ).css('top', cY );
-              console.log("id " + id);
+              $("#" + _id ).css('left', ( Number(perLeft ) + stepX) );
             }
 
+            //отрисовка вниз
+            if ( wall.get('id') == 3 ) {
+              let perTop;
+              if ( _id % 1000 !== 1 ){
+                perTop = $("#" + (_id - 1) ).css('top');
+                perTop = Number(perTop.substr(0, perTop.length-2) );
+              }
+              else {
+                perTop = 0;
+              }
+              $("#" + _id ).css('left', coordX);
+              $("#" + _id ).css('top', perTop + stepY);
+            }
             //отрисовка влево
             if ( wall.get('id') == 4 ) {
-              $("#" + _id ).css('top',coordY);
-              $("#" + _id ).css('left', coordX - $("#" + _id - 1 ).css('left') - stepX )
+              let perLeft = 0;
+              if ( _id % 1000 !== 1 ){
+                perLeft =  $("#" + (_id - 1) ).css('left') ;
+                perLeft = perLeft.substr(0, perLeft.length-2);
+              }
+              else {
+                perLeft = coordX;
+              }
+              $("#" + _id ).css('top', coordY - 4 );
+              $("#" + _id ).css('left', ( Number(perLeft ) - stepX) );
             }
-            */
           })
         })
       })
